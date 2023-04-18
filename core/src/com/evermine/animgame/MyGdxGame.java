@@ -11,12 +11,14 @@ import com.badlogic.gdx.utils.ScreenUtils;
 public class MyGdxGame extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
+	Texture background;
 	Animation<TextureRegion> link;
 	float stateTime;
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		img = new Texture("character.png");
+		background = new Texture("background.png");
 		TextureRegion frames[] = new TextureRegion[9];
 		frames[0] = new TextureRegion(img,10,3,26,45);
 		frames[1] = new TextureRegion(img,60,2,26,46);
@@ -36,7 +38,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		TextureRegion frame = link.getKeyFrame(stateTime,true);
 		ScreenUtils.clear(1, 0, 0, 1);
 		batch.begin();
-		batch.draw(frame, 200, 100);
+		batch.draw(background,0,0);
+		batch.draw(frame, 200, 100,0, 0,frame.getRegionWidth(),frame.getRegionHeight(),2,2,0);
 		batch.end();
 	}
 	
