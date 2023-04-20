@@ -1,4 +1,4 @@
-package com.evermine.animgame;
+package com.mygdx.game;
 
 import android.os.Bundle;
 

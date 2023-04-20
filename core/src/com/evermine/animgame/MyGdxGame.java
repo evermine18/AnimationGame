@@ -13,31 +13,19 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 public class MyGdxGame extends ApplicationAdapter {
 	SpriteBatch batch;
-	Texture img;
+	Player link;
 	Texture background;
-	Animation<TextureRegion> link;
 	float stateTime;
 	Rectangle up, down, left, right, fire;
 	final int IDLE=0, UP=1, DOWN=2, LEFT=3, RIGHT=4;
 	@Override
 	public void create () {
-		Graphics.DisplayMode desktopDisplayMode = Gdx.graphics.getDisplayMode();
 		batch = new SpriteBatch();
-		img = new Texture("character.png");
+		link = new Player("character.png",200,100);
 		background = new Texture("background.png");
-		int screenWidth = desktopDisplayMode.width;
-		int screenHeight = desktopDisplayMode.height;
-		TextureRegion frames[] = new TextureRegion[9];
-		frames[0] = new TextureRegion(img,10,3,26,45);
-		frames[1] = new TextureRegion(img,60,2,26,46);
-		frames[2] = new TextureRegion(img,106,4,36,41);
-		frames[3] = new TextureRegion(img,157,4,38,44);
-		frames[4] = new TextureRegion(img,210,5,31,43);
-		frames[5] = new TextureRegion(img,310,2,27,46);
-		frames[6] = new TextureRegion(img,360,5,33,45);
-		frames[7] = new TextureRegion(img,409,4,37,44);
-		frames[8] = new TextureRegion(img,460,5,31,43);
-		link = new Animation<TextureRegion>(0.08f,frames);
+		int screenWidth = Gdx.graphics.getWidth();
+		int screenHeight = Gdx.graphics.getHeight();
+
 		// facilities per calcular el "touch"
 		up = new Rectangle(0, screenHeight*2/3, screenWidth, screenHeight/3);
 		down = new Rectangle(0, 0, screenWidth, screenHeight/3);
@@ -48,19 +36,42 @@ public class MyGdxGame extends ApplicationAdapter {
 	@Override
 	public void render () {
 		stateTime += Gdx.graphics.getDeltaTime();
-		TextureRegion frame = link.getKeyFrame(stateTime,true);
 		ScreenUtils.clear(1, 0, 0, 1);
-		virtual_joystick_control();
+		playerMovement();
 		batch.begin();
 		batch.draw(background,0,0);
-		batch.draw(frame, 200, 100,0, 0,frame.getRegionWidth(),frame.getRegionHeight(),2,2,0);
+		link.render(batch);
 		batch.end();
 	}
-	
+	private void playerMovement(){
+		switch (virtual_joystick_control()){
+			case 0:
+				link.setPlayerMode(0);
+				break;
+			case 1:
+				link.setY(link.getY()-1);
+				link.setPlayerMode(1);
+				break;
+			case 2:
+				link.setY(link.getY()+1);
+				link.setPlayerMode(1);
+				break;
+			case 3:
+				link.setX(link.getX()-1);
+				link.setPlayerMode(1);
+				link.setRotation(-2);
+				break;
+			case 4:
+				link.setX(link.getX()+1);
+				link.setPlayerMode(1);
+				link.setRotation(2);
+				break;
+		}
+	}
 	@Override
 	public void dispose () {
 		batch.dispose();
-		img.dispose();
+		link.disposeTextures();
 	}
 	protected int virtual_joystick_control() {
 		// iterar per multitouch
