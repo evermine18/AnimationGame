@@ -2,6 +2,7 @@ package com.evermine.animgame;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -42,7 +43,7 @@ public class ServerConnection {
             int x = (int) playerData.get("x");
             int y = (int) playerData.get("y");
             //Player player1 = new Player("character.png", 100,100);
-            MyGdxGame.players.add(new Player("character.png", x,y));
+            MyGdxGame.players.add(new Player(MyGdxGame.txt, x,y));
             MyGdxGame.gameLogs.add("INFO",String.valueOf(MyGdxGame.players.size()));
         }
     }

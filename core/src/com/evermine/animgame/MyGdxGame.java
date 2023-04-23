@@ -23,13 +23,15 @@ public class MyGdxGame extends ApplicationAdapter {
 	public static Logs gameLogs;
 	public static ArrayList<Player> players;
 	private ServerConnection server;
+	public static Texture txt;
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		gameLogs = new Logs();
+		txt =new Texture("character.png");
 		server= new ServerConnection("localhost",8888);
 		players = new ArrayList<Player>();
-		link = new Player("character.png",200,100);
+		link = new Player(txt,200,100);
 		background = new Texture("background.png");
 		int screenWidth = Gdx.graphics.getWidth();
 		int screenHeight = Gdx.graphics.getHeight();
@@ -49,6 +51,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		server.sendPlayerPos("Pedro",100,100);
 		batch.draw(background,0,0);
 		link.render(batch);
+
 		for(int i=0;i<players.size();i++){
 			players.get(i).render(batch);
 		}
