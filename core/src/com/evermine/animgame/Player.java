@@ -16,7 +16,7 @@ public class Player {
     private int rotation = 2;
 
     public Player(String spritePath, int x,int y){
-        this.img = new Texture("character.png");
+        this.img = new Texture(spritePath);
         // Running animation
         TextureRegion runningFrame[] = new TextureRegion[9];
         runningFrame[0] = new TextureRegion(img,10,3,26,45);
