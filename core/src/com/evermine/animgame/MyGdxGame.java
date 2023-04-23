@@ -48,10 +48,15 @@ public class MyGdxGame extends ApplicationAdapter {
 		ScreenUtils.clear(1, 0, 0, 1);
 		playerMovement();
 		batch.begin();
-		server.sendPlayerPos("Pedro",100,100);
+
+		if(stateTime>=0.05){
+			//gameLogs.add("INFO2",String.valueOf(stateTime));
+			server.sendPlayerPos(link.getX(),link.getY(), link.getPlayerMode());
+			stateTime=0;
+		}
+
 		batch.draw(background,0,0);
 		link.render(batch);
-
 		for(int i=0;i<players.size();i++){
 			players.get(i).render(batch);
 		}
@@ -90,6 +95,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		for(int i=0;i<players.size();i++){
 			players.get(i).disposeTextures();
 		}
+		server.close();
 	}
 	protected int virtual_joystick_control() {
 		// iterar per multitouch
